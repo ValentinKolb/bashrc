@@ -30,9 +30,7 @@ sudo echo $bash | sudo tee -a /etc/shells
 
 echo "Changing shell for current user and root user ..."
 chsh -s $bash
-sudo chsh -s $ bash
-
-exit 
+sudo chsh -s $bash
 
 echo "Downloading scripts used for the git status in the prompt ..."
 sudo curl -o /etc/bash_completion.d/git-completion https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
