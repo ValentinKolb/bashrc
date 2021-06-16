@@ -20,5 +20,5 @@ This repo is used for versioning bashrc and other config files for bash
 To install the newest version of bash on MacOS and use it as the default shell run
 
 ```shell
-curl <todo> | bash
+curl https://raw.githubusercontent.com/ValentinKolb/bashrc/main/install_on_macos.sh | bash
 ```
