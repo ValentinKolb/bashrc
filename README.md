@@ -22,3 +22,5 @@ To install the newest version of bash on MacOS and use it as the default shell r
 ```shell
 curl https://raw.githubusercontent.com/ValentinKolb/bashrc/main/install_on_macos.sh | bash
 ```
+
+As this uses Homebrew to install a newer version of bash, [Homebrew](https://brew.sh/) must be installed and added to your path.
