@@ -15,6 +15,8 @@
 
 This repo is used for versioning bashrc and other config files for bash
 
+Recommended Font: [Fira Code](https://github.com/tonsky/FiraCode)
+
 ## MacOS
 
 To install the newest version of bash on MacOS and use it as the default shell run
