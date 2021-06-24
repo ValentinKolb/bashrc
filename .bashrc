@@ -68,7 +68,7 @@ function error_test {
 }
 
 # define the prompt
-PS1="\[\$(error_test)\]\u : \W \[\$(__git_ps1 '$LIGHTYELLOW(%s) ')\]$RESET\$ "
+PS1="\[\$(error_test)\]\u@\h : \W \[\$(__git_ps1 '$LIGHTYELLOW(%s) ')\]$RESET\$ "
 
 ##
 # COLORS FOR 'ls' AND 'grep'
