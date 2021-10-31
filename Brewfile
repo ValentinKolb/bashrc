@@ -25,7 +25,6 @@ cask "thunderbird"
 cask "zoom"
 cask "visual-studio-code"
 cask "openconnect-gui"
-cask "wireshark"
 
 mas "Xcode", id: 497799835
 mas "1Password 7", id: 1333542190

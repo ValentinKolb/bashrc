@@ -14,13 +14,6 @@ echo "#######################"
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew update
 
-echo "######################################"
-echo "# Installing Programms with Homebrew #"
-echo "######################################"
-curl -o ~/.config/Brewfile https://raw.githubusercontent.com/ValentinKolb/bashrc/main/config/Brewfile
-brew bundle install --file=~/.config/Brewfile
-rm ~/.config/Brewfile
-
 echo "##############################"
 echo "# Setting up Starship Prompt #"
 echo "##############################"
@@ -33,7 +26,9 @@ echo "# Setting up Bash #"
 echo "###################"
 if brew ls --versions bash > /dev/null; then
     echo "Upgrading bash ..."
-    brew upgrade bash    
+    brew upgrade bash
+else
+    brew install bash
 fi
 bash=$(which -a bash | head -n 1)
 echo    "Install location...: " $bash 
@@ -85,5 +80,12 @@ defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool true
 defaults -currentHost write NSGlobalDomain com.apple.trackpad.threeFingerHorizSwipeGesture -int 1
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 1
+
+echo "######################################"
+echo "# Installing Programms with Homebrew #"
+echo "######################################"
+curl -o ~/.config/Brewfile https://raw.githubusercontent.com/ValentinKolb/bashrc/main/Brewfile
+brew bundle install --file=~/.config/Brewfile
+rm ~/.config/Brewfile
 
 echo "Instalation complete. Please restart your shell now."
