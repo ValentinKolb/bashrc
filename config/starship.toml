@@ -1,0 +1,78 @@
+# Inserts a blank line between shell prompts
+add_newline = false
+
+format = """
+$username$hostname $directory$git_branch$git_status\
+$golang$python$docker_context\
+$line_break\
+$time \
+$status\
+$cmd_duration\
+$character"""
+
+[line_break]
+disabled = false
+
+[hostname]
+ssh_only = true
+format = "@[$hostname]($style)"
+trim_at = "."
+style = "bold white"
+disabled = false
+
+[username]
+style_user = "white bold"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[status]
+style = "red bold"
+symbol = "💀"
+format = '[\[$symbol $common_meaning$signal_name$maybe_int\]]($style) '
+map_symbol = true
+disabled = false
+
+[character]
+success_symbol = "[#](bold green)"
+error_symbol = "[X](bold red)"
+
+[time]
+time_format = "%R"
+format = "$time($style)"
+style = "white bold"
+disabled = false
+time_range = "20:00:00-08:00:00"
+
+[git_branch]
+truncation_symbol = ""
+style = "bold purple"
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+conflicted = "📛"
+ahead = "🏎💨"
+behind = "😰"
+diverged = "😵"
+untracked = "🤷‍"
+stashed = "📦"
+modified = "📝"
+staged = '[\($count\)](green)'
+renamed = "👅"
+deleted = "🗑"
+format = '([\[$all_status$ahead_behind\]]($style) )'
+style = 'purple bold'
+
+[docker_context]
+format = "[$symbol$context]($style) "
+symbol = "🐳 "
+style = ""
+disabled = false
+detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
+
+[python]
+python_binary = "python3"
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style) '
+
+[golang]
+format = "[$symbol($version )]($style) "

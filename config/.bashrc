@@ -1,19 +1,12 @@
 # Auther: Valentin Kolb
-# Version 1.0
+# Version 2.0
 
 # If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+[ -z "$PS1" ] && return
 
-##
-# BASH HISTORY
-##
-
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -26,26 +19,24 @@ HISTFILESIZE=2000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-shopt -s globstar
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
 
 ##
 # SET CUSTOM PROMPT
 ##
 
-# define custom colors
-LIGHTGREEN="\033[1;32m"
-LIGHTRED="\033[1;31m"
-LIGHTYELLOW="\033[1;33m"
-RESET="\033[0;00m"
-
 # load git completion
-# to get script run : sudo curl -o /etc/bash_completion.d/git-completion https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+# curl -o /etc/bash_completion.d/git-completion https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
 source /etc/bash_completion.d/git-completion
 
 # load git prompt
-# to get script run : sudo curl -o /etc/bash_completion.d/git-prompt https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+# curl -o /etc/bash_completion.d/git-prompt https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 source /etc/bash_completion.d/git-prompt
 
 # git prompt env variables
@@ -57,40 +48,29 @@ GIT_PS1_SHOWSTASHSTATE='y'
 GIT_PS1_SHOWUNTRACKEDFILES='y'
 GIT_PS1_SHOWUPSTREAM='auto'
 
-# this function test's if an error occured during the last function call, if so it colors the prompt red and prints the error_code
-function error_test {
-    return_code=$?
-    if [[ $return_code -ne 0 ]]; then
-        echo -e "$LIGHTRED[$return_code] "
-    else
-        echo -e "$LIGHTGREEN"
-    fi
-}
-
-# define the prompt
-PS1="\[\$(error_test)\]\u@\h : \W \[\$(__git_ps1 '$LIGHTYELLOW(%s) ')\]$RESET\$ "
-
-##
-# COLORS FOR 'ls' AND 'grep'
-##
-
+# enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
+
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
 
 ##
-# ALIASE
+# Aliase
 ##
 
-alias ll='ls -l'
+alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -104,10 +84,9 @@ fi
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
-  fi
 fi
+
+# enable starship prompt
+eval "$(starship init bash)"
